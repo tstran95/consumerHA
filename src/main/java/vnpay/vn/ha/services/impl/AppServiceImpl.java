@@ -25,6 +25,6 @@ public class AppServiceImpl implements AppService {
 
     @Override
     public String receiveMessage() {
-        return Objects.requireNonNull(rabbitTemplate.receive()).toString();
+        return Objects.requireNonNull(rabbitTemplate.receiveAndConvert()).toString();
     }
 }
