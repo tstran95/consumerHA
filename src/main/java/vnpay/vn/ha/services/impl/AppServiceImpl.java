@@ -15,8 +15,8 @@ public class AppServiceImpl implements AppService {
     private String message;
 
     @RabbitListener(queues = "${javainuse.rabbitmq.queue}")
-    public void receiveMessage(Message message) {
-        this.message = message.toString();
+    public void receiveMessage(String message) {
+        this.message = message;
     }
 
     @Override
