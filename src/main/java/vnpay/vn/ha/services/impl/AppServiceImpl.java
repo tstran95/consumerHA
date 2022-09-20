@@ -5,6 +5,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import vnpay.vn.ha.services.AppService;
 
+import java.util.List;
+
 /**
  * @author sontt1
  * Date:9/20/2022
@@ -12,15 +14,15 @@ import vnpay.vn.ha.services.AppService;
  */
 @Component
 public class AppServiceImpl implements AppService {
-    private String message;
+    private List<String> messages;
 
     @RabbitListener(queues = "${javainuse.rabbitmq.queue}")
-    public void receiveMessage(String message) {
-        this.message = message;
+    public void receiveMessage(List<String> message) {
+        this.messages = message;
     }
 
     @Override
     public String receiveMessage() {
-        return message;
+        return messages.toString();
     }
 }
