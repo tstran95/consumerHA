@@ -5,6 +5,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 import vnpay.vn.ha.services.AppService;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -25,6 +26,6 @@ public class AppServiceImpl implements AppService {
 
     @Override
     public String receiveMessage() {
-        return Objects.requireNonNull(rabbitTemplate.receiveAndConvert("custom.myqueue1")).toString();
+        return Arrays.toString(Objects.requireNonNull(rabbitTemplate.receive("custom.myqueue1")).getBody());
     }
 }
