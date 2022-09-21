@@ -24,7 +24,7 @@ public class ConnectionFact {
     public static Connection createConnection() throws IOException, TimeoutException {
         log.info("ConnectionManager method createConnection() START");
         com.rabbitmq.client.ConnectionFactory factory = new com.rabbitmq.client.ConnectionFactory();
-        factory.setHost("172.19.0.2");
+        factory.setHost("localhost");
         factory.setPort(5000);
         factory.setUsername("sontt");
         factory.setPassword("sontt");
