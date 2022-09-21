@@ -3,8 +3,8 @@ package vnpay.vn.ha.producer;
 import com.rabbitmq.client.BuiltinExchangeType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import vnpay.vn.harabbit.constant.Constant;
-import vnpay.vn.harabbit.core.ExchangeChannelFactory;
+import vnpay.vn.ha.constant.Constant;
+import vnpay.vn.ha.core.ExchangeChannelFactory;
 
 import java.io.IOException;
 
