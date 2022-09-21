@@ -5,9 +5,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 import vnpay.vn.ha.services.AppService;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 /**
  * @author sontt1
  * Date:9/20/2022
@@ -22,10 +19,11 @@ public class AppServiceImpl implements AppService {
 //    public void receiveMessage(Message message) {
 //        this.message = message.toString();
 //    }
-    private final RabbitTemplate rabbitTemplate;
+//    private final RabbitTemplate rabbitTemplate;
 
     @Override
     public String receiveMessage() {
-        return Arrays.toString(Objects.requireNonNull(rabbitTemplate.receive("custom.myqueue1")).getBody());
+//        return Arrays.toString(Objects.requireNonNull(rabbitTemplate.receive("custom.myqueue1")).getBody());
+        return "";
     }
 }

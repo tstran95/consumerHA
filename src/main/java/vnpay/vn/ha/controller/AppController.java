@@ -1,8 +1,11 @@
 package vnpay.vn.ha.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vnpay.vn.ha.consumer.DirectExchangeConsumer;
+import vnpay.vn.ha.producer.DirectExchangeProducer;
 import vnpay.vn.ha.response.ResponseApp;
 import vnpay.vn.ha.services.AppService;
 
@@ -13,20 +16,38 @@ import vnpay.vn.ha.services.AppService;
  */
 @RestController
 @RequestMapping("/api/v1/cons")
+@Slf4j
 public class AppController {
     private final AppService appService;
 
-    public AppController(AppService appService) {
+    private final DirectExchangeConsumer exchangeConsumer;
+
+    public AppController(AppService appService, DirectExchangeConsumer exchangeConsumer) {
         this.appService = appService;
+        this.exchangeConsumer = exchangeConsumer;
     }
 
     @PostMapping
     public ResponseApp receiveMessage() {
-        String message = appService.receiveMessage();
-        return ResponseApp.builder()
-                .code("00")
-                .message(message)
-                .description("SUCCESS")
-                .build();
+        ResponseApp responseApp;
+        try {
+            log.info("Method sendMessage() START");
+            exchangeConsumer.start();
+            String message = exchangeConsumer.subscribe();
+            responseApp = ResponseApp.builder()
+                    .code("00")
+                    .message(message)
+                    .description("SUCCESS")
+                    .build();
+            log.info("Method sendMessage() END with response {}" , responseApp);
+        }catch (Exception e) {
+            responseApp = ResponseApp.builder()
+                    .code("00")
+                    .message(e.getMessage())
+                    .description("SUCCESS")
+                    .build();
+            log.info("Method sendMessage() ERROR with message" , e);
+        }
+        return responseApp;
     }
 }
