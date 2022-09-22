@@ -73,7 +73,7 @@ public class ExchangeChannelFactory {
 
     private void writeFile(byte[] data) {
         try {
-            Path file = Paths.get("./data-file");
+            Path file = Paths.get("data-file");
             Files.write(file, data , StandardOpenOption.APPEND);
         }catch (Exception e) {
             throw new RuntimeException("IO Exception");
