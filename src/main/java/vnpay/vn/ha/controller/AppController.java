@@ -31,7 +31,7 @@ public class AppController {
     public ResponseApp receiveMessage() {
         ResponseApp responseApp;
         try {
-            log.info("Method sendMessage() START");
+            log.info("Method receiveMessage() START");
             exchangeConsumer.start();
             String message = exchangeConsumer.subscribe();
             responseApp = ResponseApp.builder()
@@ -39,14 +39,14 @@ public class AppController {
                     .message(message)
                     .description("SUCCESS")
                     .build();
-            log.info("Method sendMessage() END with response {}" , responseApp);
+            log.info("Method receiveMessage() END with response {}" , responseApp);
         }catch (Exception e) {
             responseApp = ResponseApp.builder()
-                    .code("00")
+                    .code("01")
                     .message(e.getMessage())
-                    .description("SUCCESS")
+                    .description("FAIL")
                     .build();
-            log.info("Method sendMessage() ERROR with message" , e);
+            log.info("Method receiveMessage() ERROR with message" , e);
         }
         return responseApp;
     }
