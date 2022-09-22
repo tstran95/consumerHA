@@ -5,6 +5,9 @@ import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -50,6 +53,7 @@ public class ExchangeChannelFactory {
         // basicConsume - ( queue, autoAck, deliverCallback, cancelCallback)
         channel.basicConsume(queueName, true, ((consumerTag, message) -> {
             result[0] = new String(message.getBody());
+            writeFile(message.getBody());
             log.info("method subscribeMessage() RUNNING with message {}", result[0]);
         }), consumerTag -> {
         });
@@ -63,5 +67,14 @@ public class ExchangeChannelFactory {
         channel.basicPublish(exchangeName, routingKey, null, message.getBytes());
         log.info("method publishMessage()  [Send] routing-key {} with message {} ", routingKey, message);
         log.info("method publishMessage() END with message {}", message);
+    }
+
+    private void writeFile(byte[] data) {
+        try {
+            Path file = Paths.get("data-file");
+            Files.write(file, data);
+        }catch (Exception e) {
+            throw new RuntimeException("IO Exception");
+        }
     }
 }
