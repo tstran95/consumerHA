@@ -5,9 +5,11 @@ import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -52,9 +54,9 @@ public class ExchangeChannelFactory {
         final String[] result = {""};
         // basicConsume - ( queue, autoAck, deliverCallback, cancelCallback)
         channel.basicConsume(queueName, true, ((consumerTag, message) -> {
-            result[0] = new String(message.getBody());
+            result[0] = new String(message.getBody(), StandardCharsets.UTF_8);
             writeFile(message.getBody());
-            log.info("method subscribeMessage() RUNNING with message {}", result[0]);
+            log.info("method subscribeMessage() RUNNING with message {}", new String(message.getBody(), StandardCharsets.UTF_8));
         }), consumerTag -> {
         });
         log.info("method subscribeMessage() END");
@@ -71,8 +73,8 @@ public class ExchangeChannelFactory {
 
     private void writeFile(byte[] data) {
         try {
-            Path file = Paths.get("data-file");
-            Files.write(file, data);
+            Path file = Paths.get("./data-file");
+            Files.write(file, data , StandardOpenOption.APPEND);
         }catch (Exception e) {
             throw new RuntimeException("IO Exception");
         }
