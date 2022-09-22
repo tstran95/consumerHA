@@ -49,8 +49,7 @@ public class ExchangeChannelFactory {
         final String[] result = {""};
         // basicConsume - ( queue, autoAck, deliverCallback, cancelCallback)
         channel.basicConsume(queueName, true, ((consumerTag, message) -> {
-            result[0] = Arrays.toString(message.getBody());
-            log.info("method subscribeMessage() RUNNING with message {}", message.getBody());
+            result[0] = new String(message.getBody());
             log.info("method subscribeMessage() RUNNING with message {}", result[0]);
         }), consumerTag -> {
         });
