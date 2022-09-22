@@ -1,6 +1,7 @@
 package vnpay.vn.ha.core;
 
 import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class ConnectionFact {
 
     public static Connection createConnection() throws IOException, TimeoutException {
         log.info("ConnectionManager method createConnection() START");
-        com.rabbitmq.client.ConnectionFactory factory = new com.rabbitmq.client.ConnectionFactory();
+        ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         factory.setPort(5000);
         factory.setUsername("sontt");

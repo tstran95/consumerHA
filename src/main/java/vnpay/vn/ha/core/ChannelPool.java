@@ -71,4 +71,14 @@ public class ChannelPool implements Cloneable {
             throw new RuntimeException("Could not get a resource from the pool");
         }
     }
+
+    @Override
+    public ChannelPool clone() {
+        try {
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return (ChannelPool) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }
