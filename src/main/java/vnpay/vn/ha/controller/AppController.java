@@ -34,10 +34,10 @@ public class AppController {
             log.info("Method receiveMessage() START");
 //            exchangeConsumer.start();
 //            String message = exchangeConsumer.subscribe();
-            String message = appService.receiveMessage();
+//            String message = appService.receiveMessage();
             responseApp = ResponseApp.builder()
                     .code("00")
-                    .message(message)
+                    .message("message")
                     .description("SUCCESS")
                     .build();
             log.info("Method receiveMessage() END with response {}" , responseApp);
