@@ -32,8 +32,9 @@ public class AppController {
         ResponseApp responseApp;
         try {
             log.info("Method receiveMessage() START");
-            exchangeConsumer.start();
-            String message = exchangeConsumer.subscribe();
+//            exchangeConsumer.start();
+//            String message = exchangeConsumer.subscribe();
+            String message = appService.receiveMessage();
             responseApp = ResponseApp.builder()
                     .code("00")
                     .message(message)
