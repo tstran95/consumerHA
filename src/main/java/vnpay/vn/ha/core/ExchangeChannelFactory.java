@@ -51,16 +51,16 @@ public class ExchangeChannelFactory {
 
     public String subscribeMessage(String queueName) throws IOException {
         log.info("method subscribeMessage() START with queueName {}", queueName);
-        final String[] result = {""};
+//        final String[] result = {""};
         // basicConsume - ( queue, autoAck, deliverCallback, cancelCallback)
         channel.basicConsume(queueName, true, ((consumerTag, message) -> {
-            result[0] = new String(message.getBody(), StandardCharsets.UTF_8);
+//            result[0] = new String(message.getBody(), StandardCharsets.UTF_8);
             writeFile(message.getBody());
             log.info("method subscribeMessage() RUNNING with message {}", new String(message.getBody(), StandardCharsets.UTF_8));
         }), consumerTag -> {
         });
         log.info("method subscribeMessage() END");
-        return result[0];
+        return "OK";
     }
 
     public void publishMessage(String exchangeName, String message, String routingKey) throws IOException {
