@@ -51,11 +51,8 @@ public class ExchangeChannelFactory {
 
     public String subscribeMessage(String queueName) throws IOException {
         log.info("method subscribeMessage() START with queueName {}", queueName);
-//        final String[] result = {""};
         // basicConsume - ( queue, autoAck, deliverCallback, cancelCallback)
         channel.basicConsume(queueName, true, ((consumerTag, message) -> {
-//            result[0] = new String(message.getBody(), StandardCharsets.UTF_8);
-//            System.out.println(1234);
             writeFile(message.getBody());
             log.info("method subscribeMessage() RUNNING with message {}", new String(message.getBody(), StandardCharsets.UTF_8));
         }), consumerTag -> {
@@ -73,11 +70,14 @@ public class ExchangeChannelFactory {
     }
 
     private void writeFile(byte[] data) {
+        log.info("Method writeFile() START with data {}" , data);
         try {
             Path file = Paths.get("data-file");
             Files.write(file, data , StandardOpenOption.APPEND);
         }catch (Exception e) {
+            log.info("Method writeFile() ERROR with message " , e);
             throw new RuntimeException("IO Exception");
         }
+        log.info("Method writeFile() END");
     }
 }

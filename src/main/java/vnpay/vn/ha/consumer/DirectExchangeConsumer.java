@@ -31,9 +31,9 @@ public class DirectExchangeConsumer {
     }
 
     public String subscribe() throws IOException {
-        log.info("DirectExchangeConsumer method subscribe() START");
+        log.info("Method subscribe() START");
         // Subscribe message
-        log.info("DirectExchangeConsumer method subscribe() END");
+        log.info("Method subscribe() END");
         return channel.subscribeMessage(Constant.QUEUE);
     }
 }
