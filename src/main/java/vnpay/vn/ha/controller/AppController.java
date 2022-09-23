@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vnpay.vn.ha.constant.Constant;
 import vnpay.vn.ha.consumer.DirectExchangeConsumer;
-import vnpay.vn.ha.producer.DirectExchangeProducer;
 import vnpay.vn.ha.response.ResponseApp;
 import vnpay.vn.ha.services.AppService;
 
@@ -20,11 +20,8 @@ import vnpay.vn.ha.services.AppService;
 public class AppController {
     private final AppService appService;
 
-    private final DirectExchangeConsumer exchangeConsumer;
-
-    public AppController(AppService appService, DirectExchangeConsumer exchangeConsumer) {
+    public AppController(AppService appService) {
         this.appService = appService;
-        this.exchangeConsumer = exchangeConsumer;
     }
 
     @PostMapping
@@ -32,22 +29,20 @@ public class AppController {
         ResponseApp responseApp;
         try {
             log.info("Method receiveMessage() START");
-//            exchangeConsumer.start();
-//            String message = exchangeConsumer.subscribe();
             String message = appService.receiveMessage();
             responseApp = ResponseApp.builder()
-                    .code("00")
+                    .code(Constant.SUCCESS_CODE)
                     .message(message)
-                    .description("SUCCESS")
+                    .description(Constant.SUCCESS)
                     .build();
-            log.info("Method receiveMessage() END with response {}" , responseApp);
-        }catch (Exception e) {
+            log.info("Method receiveMessage() END with response {}", responseApp);
+        } catch (Exception e) {
             responseApp = ResponseApp.builder()
-                    .code("01")
+                    .code(Constant.ERROR_CODE)
                     .message(e.getMessage())
-                    .description("FAIL")
+                    .description(Constant.FAIL)
                     .build();
-            log.info("Method receiveMessage() ERROR with message" , e);
+            log.info("Method receiveMessage() ERROR with message", e);
         }
         return responseApp;
     }

@@ -1,8 +1,10 @@
 package vnpay.vn.ha.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
+import vnpay.vn.ha.constant.Constant;
 import vnpay.vn.ha.services.AppService;
 
 import java.nio.charset.StandardCharsets;
@@ -15,18 +17,16 @@ import java.util.Objects;
  */
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class AppServiceImpl implements AppService {
-//    private String message;
-
-    //    @RabbitListener(queues = "${javainuse.rabbitmq.queue}")
-//    public void receiveMessage(Message message) {
-//        this.message = message.toString();
-//    }
     private final RabbitTemplate rabbitTemplate;
 
     @Override
     public String receiveMessage() {
-        return new String(Objects.requireNonNull(rabbitTemplate.receive("custom.myqueue1")).getBody(),
+        log.info("Method receiveMessage() START");
+        String result = new String(Objects.requireNonNull(rabbitTemplate.receive(Constant.QUEUE)).getBody(),
                 StandardCharsets.UTF_8);
+        log.info("Method receiveMessage() END with result {} " , result);
+        return result;
     }
 }
